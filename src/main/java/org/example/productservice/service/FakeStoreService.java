@@ -6,6 +6,8 @@ import org.example.productservice.dtos.CreateProductDtos;
 import org.example.productservice.dtos.FakeStoreDtos;
 import org.example.productservice.models.Category;
 import org.example.productservice.models.Product;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -82,5 +84,31 @@ public class FakeStoreService implements ProductService {
 
     }
 
+    @Override
+    public Product updateProduct(Long id) {
+
+        Product p = getProductById(id);
+        FakeStoreDtos fakeStoreDtos = new FakeStoreDtos();
+
+        fakeStoreDtos.setTitle(p.getTitle());
+        fakeStoreDtos.setPrice(p.getPrice());
+        fakeStoreDtos.setDescription(p.getDescription());
+        fakeStoreDtos.setImage(p.getImage());
+        fakeStoreDtos.setCategory(p.getCategory());
+        fakeStoreDtos.setPrice(p.getPrice());
+        fakeStoreDtos.setId(id);
+
+
+        ResponseEntity<FakeStoreDtos> response = restTemplate.exchange(
+                "https://fakestoreapi.com/products/" + id,
+                HttpMethod.PUT,
+                new HttpEntity<>(fakeStoreDtos),
+                FakeStoreDtos.class
+        );
+
+        FakeStoreDtos fakeStoreDtos1 = response.getBody();
+
+        return fakeStoreDtos1.toProduct();
+    }
 
 }

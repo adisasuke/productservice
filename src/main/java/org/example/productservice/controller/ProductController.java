@@ -49,4 +49,11 @@ public class ProductController {
         return productService.getAllCategories();
     }
 
+    @PutMapping("/products/{id}")
+    public Product updateProduct(@PathVariable Long id)
+    {
+        return productService.updateProduct(id);
+    }
+
+
 }
