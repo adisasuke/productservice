@@ -13,4 +13,5 @@ public interface ProductService {
     public List<Product> getAllProduct();
     public List<Category> getAllCategories();
     public Product updateProduct(Long id);
+    public Product deleteProduct(Long id);
 }
