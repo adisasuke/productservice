@@ -37,7 +37,7 @@ public class FakeStoreService implements ProductService {
     }
 
     @Override
-    public Product createProduct(String title, String price, String description, String image, String category) {
+    public Product createProduct(String title, String price, String description, String image, Category category) {
 
         FakeStoreDtos fakeStoreDtos = new FakeStoreDtos();
         fakeStoreDtos.setTitle(title);

@@ -3,8 +3,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
+import org.example.productservice.models.Category;
 
 
 @Getter
@@ -13,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateProductDtos {
 
-    String title;
-    String price;
-    String description;
-    String image;
-    String category;
+    private String title;
+    private String price;
+    private String description;
+    private String image;
+    private Category category;
 
 }

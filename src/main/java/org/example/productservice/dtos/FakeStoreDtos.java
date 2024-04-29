@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.productservice.models.Category;
 import org.example.productservice.models.Product;
 
 @Getter
@@ -12,12 +13,12 @@ import org.example.productservice.models.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FakeStoreDtos {
-    Long id;
-    String title;
-    String price;
-    String category;
-    String description;
-    String image;
+    private Long id;
+    private String title;
+    private String price;
+    private Category category;
+    private String description;
+    private String image;
 
     public Product toProduct()
     {

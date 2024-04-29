@@ -12,12 +12,12 @@ import org.example.productservice.models.Category;
 @AllArgsConstructor
 public class CategoryDtos {
 
-    String category;
+    private String title;
 
     public Category toCategory()
     {
         Category cg = new Category();
-        cg.setCategory(this.category);
+        cg.setTitle(this.title);
         return cg;
     }
 }
