@@ -1,10 +1,10 @@
 package org.example.productservice.controller;
 
-
 import org.example.productservice.dtos.CreateProductDtos;
 import org.example.productservice.models.Category;
 import org.example.productservice.models.Product;
 import org.example.productservice.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +13,9 @@ import java.util.List;
 public class ProductController {
 
     ProductService productService;
-    public ProductController(ProductService productService) {
+
+
+    public ProductController(@Qualifier("SelfProductService") ProductService productService) {
         this.productService = productService;
     }
 

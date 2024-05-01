@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Service
+@Service("FakeStoreService")
 public class FakeStoreService implements ProductService {
 
 
-    public RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     public FakeStoreService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -37,7 +37,7 @@ public class FakeStoreService implements ProductService {
     }
 
     @Override
-    public Product createProduct(String title, String price, String description, String image, Category category) {
+    public Product createProduct(String title, String price, String description, String image, String category) {
 
         FakeStoreDtos fakeStoreDtos = new FakeStoreDtos();
         fakeStoreDtos.setTitle(title);
@@ -94,7 +94,7 @@ public class FakeStoreService implements ProductService {
         fakeStoreDtos.setPrice(p.getPrice());
         fakeStoreDtos.setDescription(p.getDescription());
         fakeStoreDtos.setImage(p.getImage());
-        fakeStoreDtos.setCategory(p.getCategory());
+        fakeStoreDtos.setCategory(p.getCategory().getTitle());
         fakeStoreDtos.setPrice(p.getPrice());
         fakeStoreDtos.setId(id);
 
@@ -121,7 +121,7 @@ public class FakeStoreService implements ProductService {
         fakeStoreDtos.setPrice(p.getPrice());
         fakeStoreDtos.setDescription(p.getDescription());
         fakeStoreDtos.setImage(p.getImage());
-        fakeStoreDtos.setCategory(p.getCategory());
+        fakeStoreDtos.setCategory(p.getCategory().getTitle());
         fakeStoreDtos.setPrice(p.getPrice());
         fakeStoreDtos.setId(id);
 

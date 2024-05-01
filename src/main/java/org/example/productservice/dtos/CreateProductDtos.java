@@ -16,6 +16,6 @@ public class CreateProductDtos {
     private String price;
     private String description;
     private String image;
-    private Category category;
+    private String category;
 
 }
