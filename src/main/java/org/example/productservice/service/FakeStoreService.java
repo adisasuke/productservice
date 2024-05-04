@@ -6,6 +6,7 @@ import org.example.productservice.dtos.CreateProductDtos;
 import org.example.productservice.dtos.FakeStoreDtos;
 import org.example.productservice.models.Category;
 import org.example.productservice.models.Product;
+import org.example.productservice.models.ProductTitleAndDesc;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 @Service("FakeStoreService")
 public class FakeStoreService implements ProductService {
-
 
     private RestTemplate restTemplate;
 
@@ -85,17 +86,17 @@ public class FakeStoreService implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long id) {
+    public Product updateProduct(Long id,String title, String price, String description, String image, String category) {
 
         Product p = getProductById(id);
+
         FakeStoreDtos fakeStoreDtos = new FakeStoreDtos();
 
-        fakeStoreDtos.setTitle(p.getTitle());
-        fakeStoreDtos.setPrice(p.getPrice());
-        fakeStoreDtos.setDescription(p.getDescription());
-        fakeStoreDtos.setImage(p.getImage());
-        fakeStoreDtos.setCategory(p.getCategory().getTitle());
-        fakeStoreDtos.setPrice(p.getPrice());
+        fakeStoreDtos.setTitle(title);
+        fakeStoreDtos.setPrice(price);
+        fakeStoreDtos.setDescription(description);
+        fakeStoreDtos.setImage(image);
+        fakeStoreDtos.setCategory(category);
         fakeStoreDtos.setId(id);
 
 
@@ -117,13 +118,6 @@ public class FakeStoreService implements ProductService {
         Product p = getProductById(id);
         FakeStoreDtos fakeStoreDtos = new FakeStoreDtos();
 
-        fakeStoreDtos.setTitle(p.getTitle());
-        fakeStoreDtos.setPrice(p.getPrice());
-        fakeStoreDtos.setDescription(p.getDescription());
-        fakeStoreDtos.setImage(p.getImage());
-        fakeStoreDtos.setCategory(p.getCategory().getTitle());
-        fakeStoreDtos.setPrice(p.getPrice());
-        fakeStoreDtos.setId(id);
 
 
         ResponseEntity<FakeStoreDtos> response = restTemplate.exchange(
@@ -137,6 +131,22 @@ public class FakeStoreService implements ProductService {
 
         return fakeStoreDtos1.toProduct();
 
+    }
+
+    @Override
+    public void deleteAllProduct() {
+    // Not relevant for third party API
+    }
+
+    @Override
+    public void deleteAllCategories() {
+    //Not relevant for third party API
+    }
+
+    @Override
+    public ProductTitleAndDesc getProductTitleandDescription(Long id) {
+        //This method is not relevant for third party api
+        return null;
     }
 
 }
