@@ -13,7 +13,7 @@ import org.example.productservice.models.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FakeStoreDtos {
-    private Long id;
+    private String id;
     private String title;
     private String price;
     private String category;
@@ -23,7 +23,7 @@ public class FakeStoreDtos {
     public Product toProduct()
     {
         Product product = new Product();
-
+        product.setId(Long.valueOf(id));
         product.setTitle(title);
         product.setPrice(price);
         product.setDescription(description);

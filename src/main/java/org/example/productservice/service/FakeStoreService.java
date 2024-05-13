@@ -7,6 +7,7 @@ import org.example.productservice.dtos.FakeStoreDtos;
 import org.example.productservice.models.Category;
 import org.example.productservice.models.Product;
 import org.example.productservice.models.ProductTitleAndDesc;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +24,23 @@ import java.util.List;
 public class FakeStoreService implements ProductService {
 
     private RestTemplate restTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
-    public FakeStoreService(RestTemplate restTemplate) {
+    public FakeStoreService(RestTemplate restTemplate, RedisTemplate<String, Object> redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Product getProductById(Long id) {
 
+        Product product = (Product) redisTemplate.opsForValue().get(String.valueOf(id));
+        if (product != null) {return product;}
+
         FakeStoreDtos fakeStoreDtos =
                 restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreDtos.class);
+
+        redisTemplate.opsForValue().set(String.valueOf(id), fakeStoreDtos.toProduct());
 
         return fakeStoreDtos.toProduct();
     }
@@ -97,7 +105,7 @@ public class FakeStoreService implements ProductService {
         fakeStoreDtos.setDescription(description);
         fakeStoreDtos.setImage(image);
         fakeStoreDtos.setCategory(category);
-        fakeStoreDtos.setId(id);
+        fakeStoreDtos.setId(String.valueOf(id));
 
 
         ResponseEntity<FakeStoreDtos> response = restTemplate.exchange(
