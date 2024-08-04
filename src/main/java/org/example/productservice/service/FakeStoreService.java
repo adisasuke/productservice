@@ -63,6 +63,8 @@ public class FakeStoreService implements ProductService {
     @Override
     public List<Product> getAllProduct() {
 
+
+
         ResponseEntity<FakeStoreDtos[]> response =
                 restTemplate.getForEntity("https://fakestoreapi.com/products", FakeStoreDtos[].class);
 

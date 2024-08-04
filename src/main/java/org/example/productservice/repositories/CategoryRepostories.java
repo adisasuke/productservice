@@ -13,5 +13,4 @@ public interface CategoryRepostories extends JpaRepository<Category, Long> {
 
     void deleteAll();
 
-
 }

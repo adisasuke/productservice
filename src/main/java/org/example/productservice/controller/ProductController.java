@@ -1,6 +1,9 @@
 package org.example.productservice.controller;
 
+import org.example.productservice.Exception.InvalidTokenException;
+import org.example.productservice.authentication.AuthenticationCommon;
 import org.example.productservice.dtos.CreateProductDtos;
+import org.example.productservice.dtos.UserDtos;
 import org.example.productservice.models.Category;
 import org.example.productservice.models.Product;
 import org.example.productservice.models.ProductTitleAndDesc;
@@ -10,17 +13,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 public class ProductController {
 
     private final CategoryRepostories categoryRepostories;
-    ProductService productService;
+    private ProductService productService;
+    private AuthenticationCommon authenticationCommon;
 
-
-    public ProductController(@Qualifier("FakeStoreService") ProductService productService, CategoryRepostories categoryRepostories) {
+    public ProductController(@Qualifier("FakeStoreService") ProductService productService, CategoryRepostories categoryRepostories, AuthenticationCommon authenticationCommon) {
         this.productService = productService;
         this.categoryRepostories = categoryRepostories;
+        this.authenticationCommon = authenticationCommon;
     }
 
     @GetMapping("/products/{id}")
@@ -43,8 +48,23 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> getAllProduct()
-    {
+    public List<Product> getAllProduct(@RequestHeader("Authorization") String token) throws InvalidTokenException {
+        Logger.getAnonymousLogger().info("token value is :  " + token);
+
+        UserDtos userDtos;
+        try {
+            userDtos = authenticationCommon.validate(token);
+        }
+        catch (Exception e)
+        {
+            Logger.getAnonymousLogger().info("Exception in request validation");
+            return null;
+        }
+        if(userDtos.getEmail() == null)
+        {
+            throw new InvalidTokenException();
+        }
+
         return productService.getAllProduct();
     }
 
@@ -58,6 +78,7 @@ public class ProductController {
     @PutMapping("/products/{id}")
     public Product updateProduct(@PathVariable Long id,@RequestBody CreateProductDtos createProductDtos)
     {
+
         return productService.updateProduct(id,
                 createProductDtos.getTitle(),
                 createProductDtos.getPrice(),
@@ -65,6 +86,7 @@ public class ProductController {
                 createProductDtos.getImage(),
                 createProductDtos.getCategory()
                 );
+
     }
 
     @DeleteMapping("/products/{id}")
